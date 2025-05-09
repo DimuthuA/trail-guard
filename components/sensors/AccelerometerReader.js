@@ -7,5 +7,5 @@ export default function AccelerometerReader({ onData }) {
     const sub = accelerometer.subscribe(data => onData(data));
     return () => sub.unsubscribe();
   }, []);
-  return null; // no UI, just pushes data upstream
+  return null;
 }
