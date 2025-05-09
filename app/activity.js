@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import ActivityRecognition from '../components/ActivityRecognition';
 
@@ -6,7 +5,7 @@ import ActivityRecognition from '../components/ActivityRecognition';
 export default function HomeScreen() {
   return (
     <View style={styles.screen}>
-      <Text style={styles.title}>TrailGuard Activity Recognition</Text>
+      <Text style={styles.title}>Activity Recognition</Text>
        <ActivityRecognition />
     </View>
   );
