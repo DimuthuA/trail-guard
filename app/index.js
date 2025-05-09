@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { SensorReader } from '../components/SensorReader';
+import SensorDashboard from '../components/SensorDashboard';
+
 
 export default function HomeScreen() {
   return (
     <View style={styles.screen}>
       <Text style={styles.title}>TrailGuard Sensor Module</Text>
-      <SensorReader />
+       <SensorDashboard />
     </View>
   );
 }
