@@ -1,0 +1,14 @@
+import { StyleSheet, Text, View } from 'react-native';
+
+export default function SettingsDashboard() {
+  return (
+    <View style={styles.container}>
+      <Text>No settings available yet</Text>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' },
+  text: { color: '#fff', fontSize: 18, margin: 10 },
+});
