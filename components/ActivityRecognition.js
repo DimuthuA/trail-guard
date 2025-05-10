@@ -1,11 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { uploadHikerData } from '../firebase/uploadService';
 import { useActivityRecognizer } from '../modules/ActivityRecognizer';
 import AccelerometerReader from './sensors/AccelerometerReader';
+import BatteryReader from './sensors/BatteryReader';
+import LocationReader from './sensors/LocationReader';
 
 export default function ActivityScreen() {
   const [acc, setAcc] = useState({});
   const { activity, updateActivity } = useActivityRecognizer();
+  const [loc, setLoc] = useState({});
+  const [battery, setBattery] = useState(null);
+
+  useEffect(() => {
+  const interval = setInterval(() => {
+    uploadHikerData("hiker123", {
+      activity: activity,
+      battery: battery,
+      latitude: loc?.latitude,
+      longitude: loc?.longitude,
+    });
+  }, 600000); // Every 10 min
+
+  return () => clearInterval(interval);
+}, [activity, battery, loc]);
+
 
   return (
     <View style={styles.container}>
@@ -21,6 +40,8 @@ export default function ActivityScreen() {
           updateActivity(data);
         }}
       />
+      <LocationReader onLocation={setLoc}/>
+      <BatteryReader onData={setBattery} />
     </View>
   );
 }
