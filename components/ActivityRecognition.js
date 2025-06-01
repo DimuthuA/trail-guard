@@ -12,13 +12,18 @@ export default function ActivityScreen() {
   const [loc, setLoc] = useState({});
   const [battery, setBattery] = useState(null);
 
+  
+
   useEffect(() => {
+    const coords = {
+    latitude: loc?.latitude,
+    longitude: loc?.longitude,
+  };
   const interval = setInterval(() => {
     uploadHikerData("hiker123", {
       activity: activity,
       battery: battery,
-      latitude: loc?.latitude,
-      longitude: loc?.longitude,
+      location: `https://maps.google.com/?q=${coords.latitude},${coords.longitude}`,
     });
   }, 600000); // Every 10 min
 

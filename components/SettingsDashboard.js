@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Alert,
   FlatList,
@@ -10,25 +10,37 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SettingsDashboard() {
   const [contacts, setContacts] = useState([
-    { id: '1', name: 'John Doe', number: '+1234567890' },
-    { id: '2', name: 'Jane Smith', number: '+0987654321' },
+    { id: '1', name: 'Onna Posan', number: '+94706168974' },
+    { id: '2', name: 'Donna Pimuthu', number: '+94713823834' },
   ]);
 
   const [isAdding, setIsAdding] = useState(false);
   const [newContactName, setNewContactName] = useState('');
   const [newContactNumber, setNewContactNumber] = useState('');
 
-  const handleAddContact = () => {
+  useEffect(() => {
+  const loadContacts = async () => {
+    const stored = await AsyncStorage.getItem('emergencyContacts');
+    if (stored) setContacts(JSON.parse(stored));
+  };
+  loadContacts();
+}, []);
+
+
+  const handleAddContact = async () => {
     if (newContactName && newContactNumber) {
       const newContact = {
         id: Math.random().toString(),
         name: newContactName,
         number: newContactNumber,
       };
-      setContacts(prevContacts => [...prevContacts, newContact]);
+      const newContacts = [...contacts, newContact];
+      setContacts(newContacts);
+      await AsyncStorage.setItem('emergencyContacts', JSON.stringify(newContacts));
       setNewContactName('');
       setNewContactNumber('');
       setIsAdding(false);
@@ -52,8 +64,10 @@ export default function SettingsDashboard() {
         {
           text: "Delete",
           style: "destructive",
-          onPress: () => {
-            setContacts(prevContacts => prevContacts.filter(contact => contact.id !== contactId));
+          onPress: async () => {
+            const updated = contacts.filter(c => c.id !== contactId);
+            setContacts(updated);
+            await AsyncStorage.setItem('emergencyContacts', JSON.stringify(updated));
           }
         }
       ]
