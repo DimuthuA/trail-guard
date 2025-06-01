@@ -28,10 +28,12 @@ export default function SensorDashboard() {
       <Text>Signal: {signal ?? 'N/A'}</Text>
 
       {/* Readers */}
-      <AccelerometerReader onData={d => {
-        setAcc(d);
-        if (detectStep(d)) setSteps(s => s + 1);
-      }}/>
+      <AccelerometerReader
+        onData={(d) => {
+          setAcc(d);
+          detectStep(d, () => setSteps(s => s + 1));
+        }}
+      />
       <GyroscopeReader onData={setGyro}/>
       <LocationReader    onLocation={setLoc}/>
       <BarometerReader onData={(pressure) => setPressure(pressure)} />
