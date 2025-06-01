@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { gyroscope, setUpdateIntervalForType, SensorTypes } from 'react-native-sensors';
 
 export default function GyroscopeReader({ onData }) {

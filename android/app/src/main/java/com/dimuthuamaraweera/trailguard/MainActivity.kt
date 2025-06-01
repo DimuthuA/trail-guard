@@ -1,4 +1,4 @@
-package com.dimuthuamaraweera.trailguardclean
+package com.dimuthuamaraweera.trailguard
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

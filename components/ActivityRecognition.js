@@ -1,13 +1,13 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { uploadHikerData } from '../firebase/uploadService';
 import { detectActivity, useActivityRecognizer } from '../modules/ActivityRecognizer';
 import AccelerometerReader from './sensors/AccelerometerReader';
-import BatteryReader from './sensors/BatteryReader';
-import LocationReader from './sensors/LocationReader';
-import GyroscopeReader from './sensors/GyroscopeReader';
-import SignalReader from './sensors/SignalReader';
 import BarometerReader from './sensors/BarometerReader';
+import BatteryReader from './sensors/BatteryReader';
+import GyroscopeReader from './sensors/GyroscopeReader';
+import LocationReader from './sensors/LocationReader';
+import SignalReader from './sensors/SignalReader';
 
 export default function ActivityScreen() {
   const [acc, setAcc] = useState({});
@@ -84,7 +84,7 @@ export default function ActivityScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000', justifyContent: 'center', alignItems: 'center' },
+  container: { flex: 1, backgroundColor: '#1a1a1a', justifyContent: 'center', alignItems: 'center' },
   text: { color: '#fff', fontSize: 18, margin: 10 },
   title: { fontSize: 24, color: '#fff', marginBottom: 20 },
   label: { fontSize: 16, color: '#ccc', marginBottom: 10, paddingTop: 10 },

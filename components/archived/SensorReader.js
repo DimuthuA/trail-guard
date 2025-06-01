@@ -1,4 +1,3 @@
-// SensorReader.js
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { accelerometer, SensorTypes, setUpdateIntervalForType } from 'react-native-sensors';

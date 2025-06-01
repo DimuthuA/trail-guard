@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native';
-import HomeDashboard from '../components/HomeDashboard';
+import SosDashboard from '../components/SosDashboard';
 
-export default function HomeScreen() {
+export default function SosScreen() {
   return (
     <View style={styles.screen}>
-      <Text style={styles.title}>Home</Text>
-      <HomeDashboard />
+      <Text style={styles.title}>SOS</Text>
+      <SosDashboard />
     </View>
   );
 }
