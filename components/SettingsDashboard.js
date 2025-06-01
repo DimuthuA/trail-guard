@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react';
 import {
   Alert,
   FlatList,
@@ -10,7 +12,6 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SettingsDashboard() {
   const [contacts, setContacts] = useState([
@@ -23,12 +24,12 @@ export default function SettingsDashboard() {
   const [newContactNumber, setNewContactNumber] = useState('');
 
   useEffect(() => {
-  const loadContacts = async () => {
-    const stored = await AsyncStorage.getItem('emergencyContacts');
-    if (stored) setContacts(JSON.parse(stored));
-  };
-  loadContacts();
-}, []);
+    const loadContacts = async () => {
+      const stored = await AsyncStorage.getItem('emergencyContacts');
+      if (stored) setContacts(JSON.parse(stored));
+    };
+    loadContacts();
+  }, []);
 
 
   const handleAddContact = async () => {
@@ -81,10 +82,9 @@ export default function SettingsDashboard() {
         <Text style={styles.contactSubText}>{item.number}</Text>
       </View>
       <TouchableOpacity
-        style={styles.deleteButton}
         onPress={() => confirmDelete(item.id)}
       >
-        <Text style={styles.deleteButtonText}>🗑️</Text>
+        <Ionicons name="trash" size={30} color="#ccc" />
       </TouchableOpacity>
     </View>
   );
@@ -145,11 +145,12 @@ return (
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#1a1a1a',
   },
   container: {
-    padding: 24,
+    padding: 12,
     paddingBottom: 60,
+    backgroundColor: '#1a1a1a',
   },
   title: {
     fontSize: 18,
@@ -161,10 +162,12 @@ const styles = StyleSheet.create({
   contactRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#222',
-    padding: 12,
+    backgroundColor: '#333',
+    paddingLeft: 12,
+    paddingRight: 11,
+    paddingVertical:6,
     marginVertical: 5,
-    borderRadius: 6,
+    borderRadius: 10,
     justifyContent: 'space-between',
   },
   contactInfo: {
@@ -173,71 +176,69 @@ const styles = StyleSheet.create({
   },
   contactText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 17,
     marginBottom: 2,
   },
   contactSubText: {
     color: '#ccc',
-    fontSize: 16,
-  },
-  deleteButton: {
-    backgroundColor: '#ff3b30',
-    borderRadius: 6,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-  },
-  deleteButtonText: {
-    fontSize: 20,
-    color: '#fff',
+    fontSize: 15,
   },
   addContactForm: {
     backgroundColor: '#333',
-    padding: 20,
-    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    borderRadius: 10,
     marginTop: 10,
   },
   input: {
-    backgroundColor: '#444',
+    backgroundColor: '#222',
     color: '#fff',
-    padding: 10,
-    marginBottom: 15,
-    borderRadius: 6,
-    fontSize: 18,
+    padding: 12,
+    marginBottom: 12,
+    borderRadius: 10,
+    fontSize: 17,
   },
   buttons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: 12,
+    marginHorizontal: 2
   },
   saveButton: {
     backgroundColor: '#4CAF50',
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 6,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   cancelButton: {
     backgroundColor: '#f44336',
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 6,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: 'bold',
   },
   addButton: {
-    backgroundColor: '#ff3b30',
-    paddingVertical: 12,
-    borderRadius: 6,
+    backgroundColor: '#444',
+    paddingVertical: 16,
+    borderRadius: 60,
     alignItems: 'center',
     marginTop: 20,
   },
   addButtonText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 17,
   },
   footer: {
-  padding: 24,
-  backgroundColor: '#000',
+  paddingHorizontal: 12,
+  paddingVertical: 24,
+  backgroundColor: '#1a1a1a',
   },
 });

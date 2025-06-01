@@ -1,11 +1,11 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SMS from 'expo-sms';
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { uploadHikerData } from '../firebase/uploadService';
 import { detectActivity, useActivityRecognizer } from '../modules/ActivityRecognizer';
 import AccelerometerReader from './sensors/AccelerometerReader';
 import LocationReader from './sensors/LocationReader';
-import * as SMS from 'expo-sms';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SosDashboard() {
   const [isHolding, setIsHolding] = useState(false);
@@ -125,7 +125,7 @@ export default function SosDashboard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#1a1a1a',
     paddingHorizontal: 24,
     paddingTop: 60,
     paddingBottom: 40,
