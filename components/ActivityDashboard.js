@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import colors from '../constants/colors';
 import { uploadHikerData } from '../firebase/uploadService';
 import { detectActivity, useActivityRecognizer } from '../modules/ActivityRecognizer';
 import AccelerometerReader from './sensors/AccelerometerReader';
@@ -84,8 +85,27 @@ export default function ActivityScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#1a1a1a', justifyContent: 'center', alignItems: 'center' },
-  text: { color: '#fff', fontSize: 18, margin: 10 },
-  title: { fontSize: 24, color: '#fff', marginBottom: 20 },
-  label: { fontSize: 16, color: '#ccc', marginBottom: 10, paddingTop: 10 },
+  container: { 
+    flex: 1,
+    backgroundColor: colors.mainBackgroundColor,
+    justifyContent: 'center',
+    alignItems: 'center' 
+  },
+  text: { 
+    color: colors.secondaryTextColor,
+    fontSize: 18,
+    margin: 10
+  },
+  title: { 
+    fontSize: 24,
+    color: colors.secondaryTextColor,
+    fontWeight: 'bold',
+    marginBottom: 20
+  },
+  label: { 
+    fontSize: 16,
+    color: colors.secondaryTextColor,
+    marginBottom: 10,
+    paddingTop: 10
+  },
 });

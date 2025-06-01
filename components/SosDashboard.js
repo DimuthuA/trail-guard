@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SMS from 'expo-sms';
 import { useEffect, useRef, useState } from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import colors from '../constants/colors';
 import { uploadHikerData } from '../firebase/uploadService';
 import { detectActivity, useActivityRecognizer } from '../modules/ActivityRecognizer';
 import AccelerometerReader from './sensors/AccelerometerReader';
@@ -125,15 +126,15 @@ export default function SosDashboard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: colors.mainBackgroundColor,
     paddingHorizontal: 24,
     paddingTop: 60,
     paddingBottom: 40,
     justifyContent: 'space-between',
   },
   description: {
-    fontSize: 18,
-    color: '#fff',
+    fontSize: 17,
+    color: colors.secondaryTextColor,
     textAlign: 'justify',
     lineHeight: 24
   },
@@ -142,10 +143,10 @@ const styles = StyleSheet.create({
     bottom: 40
   },
   warning: {
-    fontSize: 18,
-    color: '#ffcc00',
+    fontSize: 20,
+    color: colors.warningTextColor,
     textAlign: 'center',
-    marginBottom: 22,
+    marginBottom: 30,
     lineHeight: 24
   },
   sosButton: {
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     transform: [{ scale: 1.1 }],
   },
   sosButtonText: {
-    color: '#fff',
+    color: colors.primaryTextColor,
     fontSize: 48,
     fontWeight: 'bold',
     letterSpacing: 2,
