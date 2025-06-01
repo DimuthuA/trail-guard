@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native';
-import SosDashboard from '../components/SosDashboard';
+import SensorDashboard from './SensorDashboard';
 
-export default function SosScreen() {
+
+export default function HomeScreen() {
   return (
     <View style={styles.screen}>
-      <Text style={styles.title}>SOS</Text>
-      <SosDashboard />
+      <Text style={styles.title}>All Sensor Data</Text>
+       <SensorDashboard />
     </View>
   );
 }

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { detectStep } from '../modules/stepCounter';
-import AccelerometerReader from './sensors/AccelerometerReader';
-import BarometerReader from './sensors/BarometerReader';
-import BatteryReader from './sensors/BatteryReader';
-import GyroscopeReader from './sensors/GyroscopeReader';
-import LocationReader from './sensors/LocationReader';
-import SignalReader from './sensors/SignalReader';
+import { detectStep } from '../../modules/stepCounter';
+import AccelerometerReader from '../sensors/AccelerometerReader';
+import BarometerReader from '../sensors/BarometerReader';
+import BatteryReader from '../sensors/BatteryReader';
+import GyroscopeReader from '../sensors/GyroscopeReader';
+import LocationReader from '../sensors/LocationReader';
+import SignalReader from '../sensors/SignalReader';
 
 export default function SensorDashboard() {
   const [acc, setAcc] = useState({});

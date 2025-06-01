@@ -13,10 +13,6 @@ export default function SosDashboard() {
   const intervalRef = useRef(null);
   const { updateActivity } = useActivityRecognizer();
   const [loc, setLoc] = useState({});
-  const [activityState, setActivityState] = useState({
-    label: 'unknown',
-    startTime: Date.now(),
-  });
 
   const activityInfo = useRef({
     label: 'unknown',
@@ -66,12 +62,12 @@ export default function SosDashboard() {
 
       const message = `🚨 SOS Alert!\nThe hiker may be in danger.\nActivity: ${activityMsg}\nLocation: ${coords}`;
 
-      // const isAvailable = await SMS.isAvailableAsync();
-      // if (isAvailable) {
-      //   await SMS.sendSMSAsync(numbers, message);
-      // } else {
-      //   Alert.alert("SMS Unavailable", "Your device cannot send text messages.");
-      // }
+      const isAvailable = await SMS.isAvailableAsync();
+      if (isAvailable) {
+        await SMS.sendSMSAsync(numbers, message);
+      } else {
+        Alert.alert("SMS Unavailable", "Your device cannot send text messages.");
+      }
 
       Alert.alert("SOS Triggered!", "Emergency alert sent and SMS prepared.");
     } catch (error) {
@@ -114,7 +110,6 @@ export default function SosDashboard() {
               label: newLabel,
               startTime: Date.now(),
             };
-            setActivityState(activityInfo.current);
           }
 
           updateActivity(data);

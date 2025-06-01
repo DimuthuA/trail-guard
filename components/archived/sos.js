@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import SosDashboard from '../components/SosDashboard';
+import SosDashboard from '../SosDashboard';
 
 export default function SosScreen() {
   return (
