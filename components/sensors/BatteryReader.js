@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import * as Battery from 'expo-battery';
 
 export default function BatteryReader({ onData }) {

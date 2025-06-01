@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { accelerometer, setUpdateIntervalForType, SensorTypes } from 'react-native-sensors';
 
 export default function AccelerometerReader({ onData }) {
