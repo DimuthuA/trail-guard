@@ -1,13 +1,51 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import colors from '../constants/colors';
 
-export default function HomeDashboard() {
+export default function HomeScreen() {
   const [isTracking, setIsTracking] = useState(false);
+
+  const handleToggleTracking = () => {
+    setIsTracking(prev => !prev);
+    // Start/stop background tracking logic will be added here
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.description}>
-        Home Screen content?
+      <Text style={styles.title}>Welcome to TrailGuard!</Text>
+      <Text style={styles.subtitle}>
+        Your trusty companion in safe and adventurous hikes
+      </Text>
+
+      <View style={styles.instructionsBox}>
+        <Text style={styles.instructions}>
+          To start tracking your hike, press the “Start Tracking” button below.
+        </Text>
+        <Text style={styles.instructions}>
+          Add your emergency contacts in the Settings tab before you start.
+        </Text>
+      </View>
+
+      <TouchableOpacity
+        onPress={handleToggleTracking}
+        activeOpacity={0.8}
+        style={[
+          styles.button,
+          { backgroundColor: isTracking ? '#444' : '#4caf50' },
+        ]}
+      >
+        <Text style={styles.buttonText}>
+          {isTracking ? 'Stop Tracking' : 'Start Tracking'}
+        </Text>
+      </TouchableOpacity>
+
+      <Text style={styles.statusText}>
+        Status: {isTracking ? 'Tracking your movement' : 'Tracking not activated'}
       </Text>
     </View>
   );
@@ -16,16 +54,56 @@ export default function HomeDashboard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
-    paddingHorizontal: 24,
-    paddingTop: 60,
-    paddingBottom: 40,
-    justifyContent: 'space-between',
+    backgroundColor: colors.mainBackgroundColor,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
   },
-  description: {
+  title: {
+    fontSize: 36,
+    fontWeight: '600',
+    color: colors.secondaryTextColor,
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  subtitle: {
     fontSize: 18,
-    color: '#fff',
-    textAlign: 'justify',
-    lineHeight: 24
-  }
+    color: colors.secondaryTextColor,
+    marginBottom: 128,
+    textAlign: 'center',
+  },
+  instructionsBox: {
+    marginBottom: 48,
+    paddingHorizontal: 12,
+  },
+  instructions: {
+    fontSize: 16,
+    color: colors.warningTextColor,
+    marginBottom: 8,
+    textAlign: 'center',
+    lineHeight: 22,
+  },
+  button: {
+    borderRadius: 100,
+    paddingVertical: 32,
+    paddingHorizontal: 24,
+    elevation: 10,
+    shadowColor: '#444',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    marginBottom: 16,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: colors.primaryTextColor,
+    fontWeight: '600',
+    textAlign: 'center'
+  },
+  statusText: {
+    fontSize: 14,
+    color: colors.statusTextColor,
+    marginTop: 0,
+    textAlign: 'center',
+  },
 });

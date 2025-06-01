@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
+import colors from '../constants/colors';
 
 export default function Layout() {
   return (
@@ -15,10 +16,10 @@ export default function Layout() {
 
           return <Ionicons name={iconName} size={28} color={color} />;
         },
-        tabBarActiveTintColor: '#ffcc00',
-        tabBarInactiveTintColor: '#888',
+        tabBarActiveTintColor: colors.tabBarActiveTintColor,
+        tabBarInactiveTintColor: colors.tabBarInactiveTintColor,
         tabBarStyle: {
-          backgroundColor: '#1a1a1a',
+          backgroundColor: colors.tabBarBackgroundColor,
           height: 70,
           paddingTop: 6,
         },
