@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { uploadHikerData } from '../firebase/uploadService';
-import { useActivityRecognizer } from '../modules/ActivityRecognizer';
+import { detectActivity, useActivityRecognizer } from '../modules/ActivityRecognizer';
 import AccelerometerReader from './sensors/AccelerometerReader';
 import BatteryReader from './sensors/BatteryReader';
 import LocationReader from './sensors/LocationReader';
@@ -11,24 +11,34 @@ export default function ActivityScreen() {
   const { activity, updateActivity } = useActivityRecognizer();
   const [loc, setLoc] = useState({});
   const [battery, setBattery] = useState(null);
+  const [activityState, setActivityState] = useState({
+    label: 'unknown',
+    startTime: Date.now(),
+  });
 
-  
+  const localMags = useRef([]);
 
   useEffect(() => {
-    const coords = {
-    latitude: loc?.latitude,
-    longitude: loc?.longitude,
-  };
-  const interval = setInterval(() => {
-    uploadHikerData("hiker123", {
-      activity: activity,
-      battery: battery,
-      location: `https://maps.google.com/?q=${coords.latitude},${coords.longitude}`,
-    });
-  }, 600000); // Every 10 min
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const durationMs = now - activityState.startTime;
+      const minutes = Math.floor(durationMs / 60000);
 
-  return () => clearInterval(interval);
-}, [activity, battery, loc]);
+      const coords = {
+        latitude: loc?.latitude,
+        longitude: loc?.longitude,
+      };
+
+      uploadHikerData("hiker123", {
+        activity: `${activityState.label} for ${minutes} minutes`,
+        battery: battery,
+        location: `https://maps.google.com/?q=${coords.latitude},${coords.longitude}`,
+      });
+    }, 600000); // Every 10 min
+
+    return () => clearInterval(interval);
+  }, [activityState, battery, loc]);
+
 
 
   return (
@@ -42,8 +52,16 @@ export default function ActivityScreen() {
       <AccelerometerReader
         onData={(data) => {
           setAcc(data);
-          updateActivity(data);
+          const newLabel = detectActivity(data, localMags);
+          if (newLabel !== activityState.label) {
+            setActivityState({
+              label: newLabel,
+              startTime: Date.now(),
+            });
+          }
+          updateActivity(data); // update global if needed
         }}
+
       />
       <LocationReader onLocation={setLoc}/>
       <BatteryReader onData={setBattery} />
