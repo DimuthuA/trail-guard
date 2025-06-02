@@ -1,19 +1,53 @@
-import { useState } from 'react';
+import * as Notifications from 'expo-notifications';
+import { useRef, useState } from 'react';
 import {
+  Alert,
   StyleSheet,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
 import colors from '../constants/colors';
+import { startBackgroundTask, stopBackgroundTask } from '../modules/backgroundTasks';
 
 export default function HomeScreen() {
   const [isTracking, setIsTracking] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const notificationIdRef = useRef(null);
 
-  const handleToggleTracking = () => {
-    setIsTracking(prev => !prev);
-    // Start/stop background tracking logic will be added here
+  const handleToggleTracking = async () => {
+    if (isProcessing) return; // Prevent re-entry
+    setIsProcessing(true);
+
+    try {
+      if (isTracking) {
+        await stopBackgroundTask();
+        if (notificationIdRef.current) {
+          await Notifications.dismissNotificationAsync(notificationIdRef.current);
+          notificationIdRef.current = null;
+        }
+        setIsTracking(false);
+      } else {
+        await startBackgroundTask();
+        const id = await Notifications.scheduleNotificationAsync({
+          content: {
+            title: 'TrailGuard is tracking your activity',
+            body: 'Tracking continues in the background.',
+            priority: Notifications.AndroidNotificationPriority.HIGH,
+          },
+          trigger: null,
+        });
+        notificationIdRef.current = id;
+        setIsTracking(true);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Failed to toggle tracking');
+    } finally {
+      setIsProcessing(false);
+    }
   };
+
 
   return (
     <View style={styles.container}>
@@ -34,14 +68,22 @@ export default function HomeScreen() {
       <TouchableOpacity
         onPress={handleToggleTracking}
         activeOpacity={0.8}
+        disabled={isProcessing}
         style={[
           styles.button,
-          { backgroundColor: isTracking ? '#444' : '#4caf50' },
+          { 
+            backgroundColor: isTracking ? '#444' : '#4caf50',
+            opacity: isProcessing ? 0.5 : 1,
+          },
         ]}
       >
-        <Text style={styles.buttonText}>
-          {isTracking ? 'Stop Tracking' : 'Start Tracking'}
-        </Text>
+      <Text style={styles.buttonText}>
+        {isProcessing
+          ? 'Please wait...'
+          : isTracking
+          ? 'Stop Tracking'
+          : 'Start Tracking'}
+      </Text>
       </TouchableOpacity>
 
       <Text style={styles.statusText}>

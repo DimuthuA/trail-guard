@@ -1,8 +1,24 @@
+import { useEffect } from 'react';
+import { Platform } from 'react-native';
+import * as Notifications from 'expo-notifications';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import colors from '../constants/colors';
 
 export default function Layout() {
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      Notifications.setNotificationChannelAsync('background', {
+        name: 'Background Tracking',
+        importance: Notifications.AndroidImportance.HIGH,
+        sound: null,
+        lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
+        showBadge: false,
+      });
+    }
+  }, []);
+
   return (
     <Tabs
       screenOptions={({ route }) => ({
