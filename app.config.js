@@ -17,7 +17,7 @@ export default ({ config }) => ({
       backgroundColor: "#ffffff",
     },
     edgeToEdgeEnabled: true,
-    package: "com.dimuthuamaraweera.trailguard",
+    package: "com.oshnmdw.trailguard",
     permissions: [
       "ACCESS_FINE_LOCATION",
       "ACCESS_COARSE_LOCATION",
@@ -56,11 +56,11 @@ export default ({ config }) => ({
   experiments: {
     typedRoutes: true,
   },
-  owner: "dimuthuamaraweera",
+  owner: "oshnmdw",
   extra: {
     router: {},
     eas: {
-      projectId: "ba127ee3-8d4a-4c26-b2d1-cba103e12b8d",
-    },
+        projectId: "675231cb-a267-454d-8347-872f1ba1e603"
+    }
   },
 });
