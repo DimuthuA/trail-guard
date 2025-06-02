@@ -18,6 +18,13 @@ export default ({ config }) => ({
     },
     edgeToEdgeEnabled: true,
     package: "com.dimuthuamaraweera.trailguard",
+    permissions: [
+      "ACCESS_FINE_LOCATION",
+      "ACCESS_COARSE_LOCATION",
+      "ACCESS_BACKGROUND_LOCATION",
+      "FOREGROUND_SERVICE",
+    ],
+    targetSdkVersion: 33,
   },
   web: {
     bundler: "metro",
@@ -34,6 +41,16 @@ export default ({ config }) => ({
         resizeMode: "contain",
         backgroundColor: "#ffffff",
       },
+    ],
+    "expo-notifications",
+    "expo-task-manager",
+    [
+      "expo-location",
+      {
+        // Explicit permissions
+        locationAlwaysAndWhenInUsePermission: "Allow $(PRODUCT_NAME) to access your location even when the app is in the background.",
+        locationWhenInUsePermission: "Allow $(PRODUCT_NAME) to access your location while you are using the app."
+      }
     ],
   ],
   experiments: {
