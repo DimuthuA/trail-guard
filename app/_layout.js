@@ -1,9 +1,18 @@
+import { Ionicons } from '@expo/vector-icons';
+import * as Notifications from 'expo-notifications';
+import { Tabs } from 'expo-router';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
-import * as Notifications from 'expo-notifications';
-import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
 import colors from '../constants/colors';
+
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function Layout() {
 

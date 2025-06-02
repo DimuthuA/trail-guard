@@ -24,6 +24,7 @@ export default ({ config }) => ({
       "ACCESS_BACKGROUND_LOCATION",
       "FOREGROUND_SERVICE",
     ],
+    targetSdkVersion: 33,
   },
   web: {
     bundler: "metro",
@@ -43,7 +44,14 @@ export default ({ config }) => ({
     ],
     "expo-notifications",
     "expo-task-manager",
-    "expo-location"
+    [
+      "expo-location",
+      {
+        // Explicit permissions
+        locationAlwaysAndWhenInUsePermission: "Allow $(PRODUCT_NAME) to access your location even when the app is in the background.",
+        locationWhenInUsePermission: "Allow $(PRODUCT_NAME) to access your location while you are using the app."
+      }
+    ],
   ],
   experiments: {
     typedRoutes: true,

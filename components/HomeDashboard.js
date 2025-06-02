@@ -1,5 +1,5 @@
 import * as Notifications from 'expo-notifications';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Alert,
   StyleSheet,
@@ -9,11 +9,24 @@ import {
 } from 'react-native';
 import colors from '../constants/colors';
 import { startBackgroundTask, stopBackgroundTask } from '../modules/backgroundTasks';
+import { requestLocationPermissions } from '../modules/permissions';
 
 export default function HomeScreen() {
   const [isTracking, setIsTracking] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const notificationIdRef = useRef(null);
+
+  useEffect(() => {
+    const requestNotificationPermissions = async () => {
+      const settings = await Notifications.getPermissionsAsync();
+      if (!settings.granted) {
+        await Notifications.requestPermissionsAsync();
+      }
+    };
+
+    requestNotificationPermissions();
+  }, []);
+
 
   const handleToggleTracking = async () => {
     if (isProcessing) return; // Prevent re-entry
@@ -28,6 +41,16 @@ export default function HomeScreen() {
         }
         setIsTracking(false);
       } else {
+        // Request location permissions first
+        const granted = await requestLocationPermissions();
+        if (!granted) {
+          Alert.alert(
+            'Permission Denied',
+            'Location permission is needed for TrailGuard to track your activity. Please enable it in settings.'
+          );
+          return;
+        }
+
         await startBackgroundTask();
         const id = await Notifications.scheduleNotificationAsync({
           content: {
