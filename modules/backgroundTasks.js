@@ -1,19 +1,39 @@
-// backgroundLocation.js
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
+import { uploadHikerData } from '../firebase/uploadService';
+import { getSLTTimestamp } from '../utils/timeUtils';
 
 const TASK_NAME = 'trailguard-location-tracking';
 
 // Define the background task
-TaskManager.defineTask(TASK_NAME, ({ data, error }) => {
+TaskManager.defineTask(TASK_NAME, async ({ data, error }) => {
   if (error) {
-    console.error('Location Task Error:', error);
+    console.error(`[backgroundTasks] Location Task Error @ SLT: ${getSLTTimestamp()}\n`, error);
     return;
   }
   if (data) {
     const { locations } = data;
-    console.log('Location update received:', locations);
-    // Add logic to save/send the location if needed
+    const timestampUTC = new Date().toISOString();
+    const timestampSLT = getSLTTimestamp();
+
+    console.log(`[backgroundTasks] Location update @ SLT: ${timestampSLT}\n`, locations);
+    
+    const userId = 'hiker001'; // Replace with actual user ID logic
+
+    try {
+      for (const location of locations) {
+        // Send each location update to Firestore
+        await uploadHikerData(userId, {
+          coords: location.coords,
+          mocked: location.mocked,
+          timestamp: location.timestamp,
+          updatedAtUTC: timestampUTC,
+          updatedAtSLT: timestampSLT,
+        });
+      }
+    } catch (uploadError) {
+      console.error('[backgroundTasks] Error uploading location:', uploadError);
+    }
   }
 });
 
