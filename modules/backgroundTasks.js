@@ -18,7 +18,7 @@ TaskManager.defineTask(TASK_NAME, async ({ data, error }) => {
 
     console.log(`[backgroundTasks] Location update @ SLT: ${timestampSLT}\n`, locations);
     
-    const userId = 'hiker001'; // Replace with actual user ID logic
+    const userId = 'hikerDimuthu'; // Replace with actual user ID logic
 
     try {
       for (const location of locations) {
@@ -49,7 +49,7 @@ export async function startBackgroundTask() {
   if (!isRunning) {
     await Location.startLocationUpdatesAsync(TASK_NAME, {
       accuracy: Location.Accuracy.Highest,
-      timeInterval: 60000,          // 1 minute
+      timeInterval: 300000,          // 5 minutes
       distanceInterval: 0,          // every timeInterval
       showsBackgroundLocationIndicator: true,
       foregroundService: {

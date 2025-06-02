@@ -13,7 +13,7 @@ export default function SignalReader({ onData }) {
     };
 
     read();
-    const interval = setInterval(read, 10000); // poll every 10 sec
+    const interval = setInterval(read, 60000); // poll every 60 sec
 
     return () => clearInterval(interval);
   }, []);
