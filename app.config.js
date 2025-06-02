@@ -59,8 +59,8 @@ export default ({ config }) => ({
   owner: "oshnmdw",
   extra: {
     router: {},
-    "eas": {
-        "projectId": "675231cb-a267-454d-8347-872f1ba1e603"
+    eas: {
+        projectId: "675231cb-a267-454d-8347-872f1ba1e603"
     }
   },
 });
