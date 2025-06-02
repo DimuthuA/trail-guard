@@ -8,7 +8,8 @@ import colors from '../constants/colors';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: true,
+    shouldShowBanner: true,  // shows a banner notification
+    shouldShowList: true,    // shows in notification tray
     shouldPlaySound: false,
     shouldSetBadge: false,
   }),

@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
 
-// Reusable detection logic
 export function detectActivity({ x, y, z }, magnitudesRef) {
   const mag = Math.sqrt(x * x + y * y + z * z);
   magnitudesRef.current.push(mag);
@@ -10,7 +9,7 @@ export function detectActivity({ x, y, z }, magnitudesRef) {
   const variance = magnitudesRef.current.reduce((a, b) => a + Math.pow(b - avg, 2), 0) / magnitudesRef.current.length;
 
   if (variance < 0.01) return 'Inactive';
-  if (variance > 0.5) return 'Running';
+  if (variance > 0.5) return 'Rapid Movement';
   return 'Moving';
 }
 

@@ -3,12 +3,9 @@ import { db } from './firebaseConfig';
 
 export async function uploadHikerData(userId, data) {
   try {
-    await setDoc(doc(db, 'hikers', userId), {
-      ...data,
-      updatedAt: new Date().toISOString(),
-    });
-    console.log('Uploaded data to Firestore:', data);
+    await setDoc(doc(db, 'hikers', userId), data);
+    console.log('[uploadService] Uploaded data to Firestore:\n', data);
   } catch (error) {
-    console.error('Firestore upload failed:', error);
+    console.error('[uploadService] Firestore upload failed:', error);
   }
 }
