@@ -10,6 +10,7 @@ import {
 import colors from '../constants/colors';
 import { startBackgroundTask, stopBackgroundTask } from '../modules/backgroundTasks';
 import { requestLocationPermissions } from '../modules/permissions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeScreen() {
   const [isTracking, setIsTracking] = useState(false);
@@ -24,7 +25,15 @@ export default function HomeScreen() {
       }
     };
 
+    const restoreTrackingState = async () => {
+    const storedState = await AsyncStorage.getItem('isTracking');
+    if (storedState === 'true') {
+      setIsTracking(true);
+    }
+  };
+
     requestNotificationPermissions();
+    restoreTrackingState();
   }, []);
 
 
@@ -39,6 +48,7 @@ export default function HomeScreen() {
           await Notifications.dismissNotificationAsync(notificationIdRef.current);
           notificationIdRef.current = null;
         }
+        await AsyncStorage.setItem('isTracking', 'false');
         setIsTracking(false);
       } else {
         // Request location permissions first
@@ -61,6 +71,7 @@ export default function HomeScreen() {
           trigger: null,
         });
         notificationIdRef.current = id;
+        await AsyncStorage.setItem('isTracking', 'true');
         setIsTracking(true);
       }
     } catch (error) {
