@@ -1,6 +1,8 @@
+import * as Battery from 'expo-battery';
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
 import { uploadHikerData } from '../firebase/uploadService';
+import { withTimeout } from '../utils/asyncUtils';
 import { getSLTTimestamp } from '../utils/timeUtils';
 
 const TASK_NAME = 'trailguard-location-tracking';
@@ -15,8 +17,15 @@ TaskManager.defineTask(TASK_NAME, async ({ data, error }) => {
     const { locations } = data;
     const timestampUTC = new Date().toISOString();
     const timestampSLT = getSLTTimestamp();
+    let batteryLevel = null;
+    try {
+      batteryLevel = await withTimeout(getBatteryLevel(), 2000); // 2 seconds timeout
+    } catch (error) {
+      console.warn(`[backgroundTasks] Failed to get battery level or timeout @ SLT: ${timestampSLT}\n`, error);
+      batteryLevel = -1; // fallback
+    }
 
-    console.log(`[backgroundTasks] Location update @ SLT: ${timestampSLT}\n`, locations);
+    console.log(`[backgroundTasks] Update @ SLT: ${timestampSLT}\nLocation: `, locations, '\nBattery: ', batteryLevel);
     
     const userId = 'hikerDimuthu'; // Replace with actual user ID logic
 
@@ -27,6 +36,7 @@ TaskManager.defineTask(TASK_NAME, async ({ data, error }) => {
           coords: location.coords,
           mocked: location.mocked,
           timestamp: location.timestamp,
+          batteryLevel: batteryLevel,
           updatedAtUTC: timestampUTC,
           updatedAtSLT: timestampSLT,
         });
@@ -49,7 +59,7 @@ export async function startBackgroundTask() {
   if (!isRunning) {
     await Location.startLocationUpdatesAsync(TASK_NAME, {
       accuracy: Location.Accuracy.Highest,
-      timeInterval: 300000,          // 5 minutes
+      timeInterval: 120000,          // 2 minutes
       distanceInterval: 0,          // every timeInterval
       showsBackgroundLocationIndicator: true,
       foregroundService: {
@@ -75,4 +85,10 @@ export async function stopBackgroundTask() {
 // Check if task is running
 export async function isBackgroundTaskRunning() {
   return await Location.hasStartedLocationUpdatesAsync(TASK_NAME);
+}
+
+async function getBatteryLevel() {
+  const level = await Battery.getBatteryLevelAsync(); // float between 0 and 1
+  const percentage = Math.round(level * 100);         // integer between 0 and 100
+  return percentage;
 }
