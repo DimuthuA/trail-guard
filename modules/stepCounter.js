@@ -1,10 +1,5 @@
-// modules/stepCounter.js
-
-let lastMagnitude = 0;
-let lastStepTime = 0;
-
 const THRESHOLD = 1.2;
-const MIN_INTERVAL = 400; // ms between steps
+const MIN_INTERVAL = 400;
 const VALIDATION_STEPS = 6;
 const VALIDATION_WINDOW_MS = 4000;
 const INACTIVITY_TIMEOUT = 10000; // 10 seconds of no steps = not walking
@@ -12,6 +7,8 @@ const INACTIVITY_TIMEOUT = 10000; // 10 seconds of no steps = not walking
 let hiddenSteps = 0;
 let isWalking = false;
 let firstStepTime = null;
+let lastMagnitude = 0;
+let lastStepTime = 0;
 
 /**
  * Main step detection logic
@@ -33,7 +30,6 @@ export function detectStep(accData, onStepConfirmed) {
     isWalking = false;
     hiddenSteps = 0;
     firstStepTime = null;
-    // Optional: you could call onStopWalking() here
   }
 
   if (diff > THRESHOLD && now - lastStepTime > MIN_INTERVAL) {
@@ -63,7 +59,6 @@ export function detectStep(accData, onStepConfirmed) {
         firstStepTime = null;
       }
     } else {
-      // Already validated — count step
       onStepConfirmed();
     }
   }

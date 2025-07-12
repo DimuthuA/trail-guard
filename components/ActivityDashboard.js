@@ -9,6 +9,7 @@ import BatteryReader from './sensors/BatteryReader';
 import GyroscopeReader from './sensors/GyroscopeReader';
 import LocationReader from './sensors/LocationReader';
 import SignalReader from './sensors/SignalReader';
+import { detectStep } from '../modules/stepCounter';
 
 export default function ActivityScreen() {
   const [acc, setAcc] = useState({});
@@ -59,11 +60,12 @@ export default function ActivityScreen() {
       <Text style={styles.label}>GPS:   {loc.latitude?.toFixed(4)}, {loc.longitude?.toFixed(4)}</Text>
       <Text style={styles.label}>Pressure: {pressure?.toFixed(2)} hPa</Text>
       <Text style={styles.label}>Battery: {battery ?? 'N/A'}%</Text>
-      <Text style={styles.label}>Signal: {signal ?? 'N/A'}</Text>
+      {/* <Text style={styles.label}>Signal: {signal ?? 'N/A'}</Text> */}
 
       <AccelerometerReader
         onData={(data) => {
           setAcc(data);
+          detectStep(data, () => setSteps((s) => s + 1));
           const newLabel = detectActivity(data, localMags);
           if (newLabel !== activityState.label) {
             setActivityState({
@@ -71,7 +73,7 @@ export default function ActivityScreen() {
               startTime: Date.now(),
             });
           }
-          updateActivity(data); // update global if needed
+          updateActivity(data);
         }}
 
       />
