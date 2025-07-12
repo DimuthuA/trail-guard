@@ -7,7 +7,7 @@ export default function LocationReader({ onLocation }) {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status === 'granted') {
         const sub = await Location.watchPositionAsync(
-          { accuracy: Location.Accuracy.Highest, timeInterval: 5000 },
+          { accuracy: Location.Accuracy.Highest, timeInterval: 15000 },
           loc => onLocation(loc.coords)
         );
         return () => sub.remove();

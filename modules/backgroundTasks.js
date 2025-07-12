@@ -30,8 +30,8 @@ TaskManager.defineTask(TASK_NAME, async ({ data, error }) => {
     const userId = 'hikerDimuthu'; // Replace with actual user ID logic
 
     try {
-      for (const location of locations) {
-        // Send each location update to Firestore
+      const location = locations[locations.length - 1]; // Get the most recent location update
+      if (location) {
         await uploadHikerData(userId, {
           coords: location.coords,
           mocked: location.mocked,

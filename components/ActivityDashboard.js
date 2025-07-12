@@ -42,7 +42,7 @@ export default function ActivityScreen() {
         battery: battery,
         location: `https://maps.google.com/?q=${coords.latitude},${coords.longitude}`,
       });
-    }, 600000); // Every 10 min
+    }, 15000); // Every 15 seconds
 
     return () => clearInterval(interval);
   }, [activityState, battery, loc]);
